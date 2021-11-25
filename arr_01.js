@@ -37,7 +37,7 @@ function getHTML() {
     let htmlStr = "";
 
     for (let i = 0; i < tags.length; i++) {
-        if (isOpenTag(tags[i])) {
+        if (isOpenTag(tags[i], stack)) {
             htmlStr += getTags(tags[i], "open");
         } else {
             htmlStr += getTags(tags[i], "close");
@@ -47,7 +47,7 @@ function getHTML() {
 }
 
 // Modul: open || close ?
-function isOpenTag(tag) {
+function isOpenTag(tag, stack) {
 
     const cond = (tag != stack[stack.length - 1]); // tag liegt oben!
 
@@ -56,21 +56,6 @@ function isOpenTag(tag) {
         return true;
     } else {
         stack.pop();
-        return false;
-    }
-}
-
-function isOpenTag2(tag) {
-
-    const cond = (tag != stack2[stack2.length - 1]); // tag liegt oben!
-
-    if (cond) {
-        stack2.push(tag);
-        // output(stack2);
-        return true;
-    } else {
-        stack2.pop();
-        // output(stack2);
         return false;
     }
 }
@@ -86,12 +71,12 @@ function getTags(tag, op) {
             return "#!";
     }
 }
-
+// tag == "h1" || tag == "p"
 function indent(tag) {
     let extra = 0;
-    const cond = !isOpenTag2(tag);
+    const cond = !isOpenTag(tag, stack2);
     if (cond) {
-        if (tag == "h1" || tag == "p") {
+        if (indentation == 3) {
             indentation -= 1;
             extra = 1;
             return "";
