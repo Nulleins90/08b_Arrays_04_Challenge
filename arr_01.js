@@ -87,6 +87,49 @@ function getTags(tag, op) {
     }
 }
 
+function indent(tag) {
+    let extra = 0;
+    const cond = !isOpenTag2(tag);
+    if (cond) {
+        if (tag == "h1" || tag == "p") {
+            indentation -= 1;
+            extra = 1;
+            return "";
+        }
+        indentation -= 1;
+        extra = 1;
+    }
+    else if (!cond) {
+        indentation += 1;
+        extra = 0;
+    }
+
+    switch (indentation + extra) {
+        case 1:
+            return "";
+        case 2:
+            return "\t";
+        case 3:
+            return "\t\t";
+        default:
+            break;
+    }
+}
+
+function breakLine() {
+    if (stack.length < 3) {
+        return "\n";
+    } else {
+        return "";
+    }
+}
+// Modul: Ausgabe | Test
+//output("hi");
+function output(outputData) {
+    console.log(outputData);
+}
+
+
 // function indent() {
 //     indentation++;
 //     switch (indentation) {
@@ -137,45 +180,3 @@ function getTags(tag, op) {
 //             break;
 //     }
 // }
-
-function indent(tag) {
-    let extra = 0;
-    const cond = !isOpenTag2(tag);
-    if (cond) {
-        if (tag == "h1" || tag == "p") {
-            indentation -= 1;
-            extra = 1;
-            return "";
-        }
-        indentation -= 1;
-        extra = 1;
-    }
-    else if (!cond) {
-        indentation += 1;
-        extra = 0;
-    }
-
-    switch (indentation + extra) {
-        case 1:
-            return "";
-        case 2:
-            return "\t";
-        case 3:
-            return "\t\t";
-        default:
-            break;
-    }
-}
-
-function breakLine() {
-    if (stack.length < 3) {
-        return "\n";
-    } else {
-        return "";
-    }
-}
-// Modul: Ausgabe | Test
-//output("hi");
-function output(outputData) {
-    console.log(outputData);
-}
